@@ -77,8 +77,8 @@ body, html {overflow:visible !important;}
 code {-webkit-user-select: auto;}
 
 #wrapper { min-height: 1260px; }
-.logo { margin-top: 20px; }
-.content { width: 800px; float: left; margin-left: 40px; }
-.sidebar { float: left; margin: 80px 0 0 40px; }
+.logo { margin: 20px 0; }
+.content { width: 800px; float: left; margin-left: 20px; }
+.sidebar { float: left; margin: 60px 0 0 40px; }
 .sidebar h2 { font-size: 45px; color: #c40000; font-weight: normal;}
 #artist { text-transform: uppercase; }
