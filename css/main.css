@@ -38,7 +38,7 @@ h1, h2, h3, h4, h5, h6, .hdr-xxl, .hdr-xl, .hdr-l, .hdr-m, .hdr-sm, .hdr-xsm {
 	border-bottom: 1px solid #ddd;
 }
 
-#wrapper {position: relative; max-width: 800px;min-height: 100%;margin: 0 auto;padding: 20px;}
+#wrapper {position: relative;min-height: 100%;margin: 0;padding: 10px 20px;}
 
 section {position: relative;overflow: hidden;margin: 0 0 40px;}
 
@@ -77,4 +77,7 @@ body, html {overflow:visible !important;}
 code {-webkit-user-select: auto;}
 
 #wrapper { min-height: 1260px; }
-#current { font-size: 50px; color: #c40000; font-weight: normal; margin-top: 0.5em; }
+.content { width: 800px; float: left; margin-left: 40px; }
+.sidebar { float: left; margin: 100px 0 0 40px; }
+.sidebar h2 { font-size: 45px; color: #c40000; font-weight: normal;}
+#artist { text-transform: uppercase; }
