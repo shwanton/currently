@@ -10,9 +10,53 @@
     <body>
         <div id="wrapper">
             <div id="index" class="section">
-                Currently Playing:
+
+                <h1 class="logo"><img src="img/substantial-logo.png"></h1>
+
+                <div id="single-track-player"></div>
+
+                <h2 id="current">Currently playing track</h2>
+
+                <script type="script/snippet">
+                    require(['$api/models', '$views/image#Image'], function(models, Image) {
+
+                        height = document.documentElement.clientHeight;
+                        console.log(height);
+                        document.getElementById('wrapper').style.height = (height + 500);
+
+                        var nowPlaying = document.getElementById('current');
+
+                        function updateStatus(track) {
+                            if (track === null) {
+                                nowPlaying.innerHTML = 'Nothing currently playing';
+                            } else {
+                                imageContainer = document.getElementById('single-track-player');
+                                trackObj = models.Track.fromURI(track.uri);
+
+                                nowPlaying.innerHTML = trackObj.name
+
+                                image = Image.forTrack(trackObj, { width: 800, height: 800 });
+                                imageContainer.innerHTML = '';
+                                imageContainer.appendChild(image.node);
+
+                            }
+                        }
+
+                        // update on load
+                        models.player.load('track').done(function(p) {
+                            updateStatus(p.track);
+                        });
+
+                        // update on change
+                        models.player.addEventListener('change', function(p) {
+                            updateStatus(p.data.track);
+                        });
+
+                    });
+                </script>
             </div>
         </div>
         <script src="/js/rainbow-custom.min.js"></script>
+        <script src="/js/tutorial.js"></script>
     </body>
 </html>

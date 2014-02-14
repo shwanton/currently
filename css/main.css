@@ -4,7 +4,7 @@ body {
 	font-size: 12px;
 	line-height: 1.584;
 	color: #222;
-	background-color: #ecebe8;
+	background-color: #1b1d1e;
 }
 
 a {
@@ -47,16 +47,15 @@ section {position: relative;overflow: hidden;margin: 0 0 40px;}
 	padding: 0;
 }
 
-body::before {
-	content: '.';
-	background: url('/img/spotify-logo.png') no-repeat top right;
-	width: 400px;
-	height: 400px;
-	top: 0;
-	right: 0;
-	position: absolute;
-	opacity: 0.2;
-}
+/* body::before { */
+/* 	content: '.'; */
+/* 	background: url('/img/substantial-logo.png') no-repeat top right; */
+/* 	width: 801px; */
+/* 	height: 65px; */
+/* 	top: 0; */
+/* 	left: 0; */
+/* 	position: absolute; */
+/* } */
 
 /* Text */
 ul {margin:0 0 20px;}
@@ -71,8 +70,11 @@ ul {margin:0 0 20px;}
 #drop-box.over {opacity:0.8;border-color:#74c043;}
 
 /* Buttons */
-.buttons button {margin: 0 20px 0 0;} 
+.buttons button {margin: 0 20px 0 0;}
 
 body, html {overflow:visible !important;}
 
 code {-webkit-user-select: auto;}
+
+#wrapper { min-height: 1260px; }
+#current { font-size: 50px; color: #c40000; font-weight: normal; margin-top: 0.5em; }
