@@ -33,7 +33,7 @@
                                 imageContainer = document.getElementById('single-track-player');
                                 trackObj = models.Track.fromURI(track.uri);
 
-                                nowPlaying.innerHTML = trackObj.name
+                                nowPlaying.innerHTML = trackObj.artists[0].name + " - " + trackObj.name;
 
                                 image = Image.forTrack(trackObj, { width: 800, height: 800 });
                                 imageContainer.innerHTML = '';
