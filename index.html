@@ -6,57 +6,95 @@
         <link rel="stylesheet" href="$views/css/buttons.css">
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/github.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
     </head>
     <body>
         <div id="wrapper">
-            <div id="index" class="section">
 
-                <div class="content">
-                    <h1 class="logo"><img src="img/substantial-logo.png"></h1>
-
-                    <div id="track-image"></div>
+            <div class="title">
+                <h2><a class="metadata" href="#" id="artist"></a></h2>
+                <h2><a class="metadata" href="#" id="album"></a></h2>
+                <div class="starred">
+                    <button id="star" class="fa fa-star"></button>
                 </div>
-
-                <div class="sidebar">
-                    <h2 id="track">Track</h2>
-                    <h2 id="artist">Album</h2>
-                </div>
-
-                <script type="script/snippet">
-                    require(['$api/models', '$views/image#Image'], function(models, Image) {
-
-                        var trackContainer = document.getElementById('track'),
-                            artistContainer = document.getElementById('artist');
-
-                        function updateStatus(track) {
-                            if (track === null) {
-                                trackContainer.innerHTML = 'Nothing currently playing';
-                            } else {
-                                imageContainer = document.getElementById('track-image');
-                                trackObj = models.Track.fromURI(track.uri);
-
-                                artistContainer.innerHTML = trackObj.artists[0].name
-                                trackContainer.innerHTML =  trackObj.name;
-
-                                image = Image.forTrack(trackObj, { width: 800, height: 800 });
-                                imageContainer.innerHTML = '';
-                                imageContainer.appendChild(image.node);
-                            }
-                        }
-
-                        // update on load
-                        models.player.load('track').done(function(p) {
-                            updateStatus(p.track);
-                        });
-
-                        // update on change
-                        models.player.addEventListener('change', function(p) {
-                            updateStatus(p.data.track);
-                        });
-
-                    });
-                </script>
             </div>
+
+            <div id="album-image"></div>
+            <h2 class="footer"><a class="metadata" href="#" id="track">Album Title</a></h2>
+
+
+            <script type="script/snippet">
+                require(['$api/models', '$views/image#Image', '$api/library#Library'], function(models, Image, Library) {
+
+                    var currentLibrary = Library.forCurrentUser(),
+                        track = '',
+                        album = '',
+                        trackContainer = document.getElementById('track'),
+                        artistContainer = document.getElementById('artist'),
+                        albumContainer = document.getElementById('album'),
+                        button = document.getElementById('star');
+
+                    var updateStar = function() {
+                        track.load('starred').done(function(t) {
+                            if (t.starred) {
+                                currentLibrary.unstar(track).done(function() {
+                                    updateStarButton();
+                                });
+                            } else {
+                                currentLibrary.star(track).done(function() {
+                                    updateStarButton();
+                                });
+                            }
+                        });
+                    }
+
+                    function updateStarButton() {
+                        if (track.starred) {
+                            button.className = "fa fa-star";
+                        } else {
+                            button.className = "fa fa-star-o";
+                        }
+                    }
+
+                    function updateTrackInfo() {
+                        if (track === null) {
+                            trackContainer.innerHTML = 'Nothing currently playing';
+                        } else {
+                            imageContainer = document.getElementById('album-image');
+
+                            artistContainer.innerHTML = track.artists[0].name;
+                            trackContainer.innerHTML =  track.name;
+                            track.album.load('name').done(function(a) {
+                                albumContainer.innerHTML =  a.name;
+                                console.log(a);
+                            });
+
+                            updateStarButton();
+
+                            image = Image.forTrack(track, { width: 600, height: 600 });
+                            imageContainer.innerHTML = '';
+                            imageContainer.appendChild(image.node);
+                        }
+                    }
+
+                    button.addEventListener('click', updateStar);
+
+                    // update on load
+                    models.player.load('track').done(function(p) {
+                        track = models.Track.fromURI(p.track.uri);
+                        updateTrackInfo();
+                    });
+
+                    // update on change
+                    models.player.addEventListener('change', function(p) {
+                        button.removeEventListener('click', updateStar);
+                        track = models.Track.fromURI(p.data.track.uri);
+
+                        button.addEventListener('click', updateStar);
+                        updateTrackInfo();
+                    });
+                });
+            </script>
         </div>
         <script src="/js/rainbow-custom.min.js"></script>
         <script src="/js/tutorial.js"></script>
